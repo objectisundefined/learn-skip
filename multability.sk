@@ -1,0 +1,14 @@
+mutable class Point(mutable x: Int, mutable y: Int) {
+  mutable fun moveX(): void {
+    this.!x = this.x + 1;
+
+    void
+  }
+}
+
+fun main(): void {
+  p = mutable Point(1, 2);
+  p.moveX();
+
+  print_string(p.x);
+}

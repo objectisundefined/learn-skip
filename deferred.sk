@@ -1,0 +1,29 @@
+base class User { name: String, age: Int } {
+  type ID;
+
+  deferred static fun load(this::ID): this;
+}
+
+class IntKeyedUser { id: Int } extends User {
+  type ID = Int;
+
+  static fun load(key: this::ID): this {
+    IntKeyedUser { id => key, name => `user ${key}`, age => 12 }
+  }
+}
+
+class StringKeyedUser { id: String } extends User {
+  type ID = String;
+
+  static fun load(key: this::ID): this {
+    StringKeyedUser { id => key, name => `user ${key}`, age => 12 }
+  }
+}
+
+fun main(): void {
+  u1 = IntKeyedUser::load(1);
+  u2 = StringKeyedUser::load("2");
+
+  print_string(`User { id: ${u1.id}, name: ${u1.name}, age: ${u1.age} }`);
+  print_string(`User { id: ${u2.id}, name: ${u2.name}, age: ${u2.age} }`);
+}
