@@ -1,0 +1,59 @@
+// mutable modifier on a class
+mutable class MyObject { mutable field1: Int, mutable field2: Int } uses Show {
+  readonly fun toString(): String {
+    `MyObject { field1: ${this.field1}, field2: ${this.field2} }`
+  }
+}
+
+class R (x: Int, y: Int) uses Show {
+  fun moveX(v: Int): R {
+    R(this.x + v, this.y)
+  }
+
+  fun moveY(v: Int): R {
+    R(this.x, this.y + v)
+  }
+
+  fun move(a: Int, b: Int): R {
+    // useful when dealing with immutable objects
+    !this = this.moveX(a);
+    !this = this.moveY(b);
+
+    this
+  }
+
+  fun toString(): String {
+    `R(${this.x}, ${this.y})`
+  }
+}
+
+fun main(): void {
+  x = mutable MyObject { field1 => 1, field2 => 2 };
+  print_string(x);
+
+  y = x;
+
+  // change the value of a field
+  x.!field1 = 10;
+  print_string(x);
+
+  // x, y point to the same object
+  // can't use ==, becase the field == is undefined on type MyObject
+  print_string(y);
+
+  // change reference
+  // x now point to a new object
+  !x.field1 = 100;
+
+  print_string(x);
+  print_string(y);
+
+  // more examples
+  // x.!field1.field2 = 0
+  // (!this, y) = this.f(...);
+
+  r = R(1, 2);
+  print_string(r);
+  n = r.move(1, 2);
+  print_string(n)
+}

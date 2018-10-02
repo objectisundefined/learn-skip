@@ -1,0 +1,45 @@
+/*
+fun add1(x: Int): Int {
+  x + 1
+}
+*/
+
+// variables introduced with `=`, expression sequences with `;`
+/*
+fun add1(x: Int): Int {
+  y = 1;
+  x + y
+}
+*/
+
+/* modify local variables */
+fun add1(x: Int): Int {
+  y = 0;
+  !y = 1;
+  x + y
+}
+
+/* primary typs: Int, Float, String, Char, Bool, void. */
+// The result of variable declarations (=) and mutations (! =) is the void value
+fun notVaryUsefl(): void {
+  x = void;
+  x
+}
+
+fun doSomethingWhichHasSideEffectsAsWellAsProducesAValue(): Int { 2 }
+
+fun discardUnusedValue(): Int {
+  // nested fun declaration was not supported
+  _ = doSomethingWhichHasSideEffectsAsWellAsProducesAValue();
+  42
+}
+
+fun a(): 1 {
+  1
+}
+
+fun main(): void {
+  print_string(add1(2));
+  print_string(notVaryUsefl())
+  print_string(discardUnusedValue())
+}

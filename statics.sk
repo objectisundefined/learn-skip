@@ -1,0 +1,15 @@
+// if without `native value`, error: missing class constructor fields, Math()
+native value class Math {
+  static fun min(arr: Array<Int>): Int {
+    arr.foldl((a, b) -> if (a > b) b else a, Int::max)
+  }
+
+  static fun max(arr: Array<Int>): Int {
+    arr.foldl((a, b) -> if (a > b) a else b, Int::min)
+  }
+}
+
+fun main(): void {
+  print_string(Math::min(Array[1, 2, 3, 4, 5]));
+  print_string(Math::max(Array[1, 2, 3, 4, 5]));
+}

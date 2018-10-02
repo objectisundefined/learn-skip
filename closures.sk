@@ -1,0 +1,13 @@
+fun someVector(v: Vector<Int>): Int {
+  sum = 0;
+
+  // ->, ~> 
+  // pure with ~>, there can't use ~>
+  v.each(x -> !sum = sum + x);
+
+  sum
+}
+
+fun main(): void {
+  print_string(someVector(Vector::fillBy(5, i -> i)))
+}

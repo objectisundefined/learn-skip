@@ -1,0 +1,51 @@
+base class Parent {
+  children = A() | B() | C()
+}
+
+fun valueToInt(value: Parent): Int {
+  value match {
+  | A() -> 0
+  | B() -> 1
+  | C() -> 2
+  }
+}
+
+// optional
+class D (x: ?Int)
+class E (item: D)
+
+fun match(value: E): Int {
+  value match {
+  | E(D(Some(x))) -> x
+  | _ -> 0
+  }
+}
+
+// alias: | E(v@D(Some(x))) -> v.getSize() * val
+// named parameters: | A { x => Some(x) }
+// tuple: | (_, Some(x))
+// guard: | E(D(x)) if (x.isSome()) -> x.fromSome()
+// use match in if: if (value matches E(D(Some(x))))
+
+/*
+multiple patterns execute the same branch
+
+class A(x: ?Int, y: ?Int)
+
+fun getAnyValAndAdd100(a: A): Int {
+  a match {
+  | A(_, Box(val))
+  | A(Box(val), _) -> val + 100
+  | _ -> 100
+  }
+}
+*/
+
+fun main(): void {
+  print_string(valueToInt(A()));
+  print_string(valueToInt(B()));
+  print_string(valueToInt(C()));
+
+  print_string(match(E(D(None()))));
+  print_string(match(E(D(Some(1)))));
+}

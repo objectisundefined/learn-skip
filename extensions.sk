@@ -1,0 +1,24 @@
+trait MyHashable {
+  fun myhash(): Int;
+}
+
+extension class String uses MyHashable {
+  fun myhash(): Int {
+    this.foldl((a, b) -> a * 31 + b.code(), 0)
+  }
+}
+
+extension class String {
+  fun capitalize(): String {
+    if (this.length() == 0) {
+      ""
+    } else {
+      this.sub(0, 1).uppercase() + this.substring(1).lowercase()
+    }
+  }
+}
+
+fun main(): void {
+  print_string("abc".myhash());
+  print_string("aBc".capitalize());
+}

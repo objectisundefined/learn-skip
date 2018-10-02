@@ -1,0 +1,88 @@
+/*
+fun maybeAdd1(condition: Bool, x: Int): Int {
+  y = (if (condition) 1 else 0);
+  x + y
+}
+*/
+
+fun maybeAdd1(condition: Bool, x: Int): Int {
+  y = 0;
+  if (condition) {
+    !y = 1
+  }; // if, for/in, while, do and loop are all expressions
+
+  x + y
+}
+
+fun findMax(values: Sequence<Int>): Int {
+  max = Int::min;
+
+  for (value in values) {
+    if (value > max) {
+      !max = value
+    }
+  };
+
+  max
+}
+
+// class, traits
+class Person { name: String, age: Int } uses Show {
+  fun toString(): String {
+    `Person { name: ${this.name}, age: ${this.age} }`
+  }
+}
+
+fun getAge(name: String, people: Sequence<Person>): Int {
+  for (person in people) {
+    if (person.name == name) {
+      break person.age
+    }
+  } else -1
+}
+
+fun getAgeWhile(name: String, people: Sequence<Person>): Int {
+  iter = people.values();
+  current = iter.next();
+
+  while (current.isSome()) {
+    person = current.fromSome();
+    
+    if (person.name == name) {
+      break person.age
+    }; // notice ; here
+
+    !current = iter.next()
+  } else -1
+}
+
+fun getAgeLoop(name: String, people: Sequence<Person>): Int {
+  iter = people.values();
+  loop {
+    current = iter.next();
+
+    if (current.isNone()) {
+      break -1
+    };
+
+    person = current.fromSome();
+
+    if (person.name == name) {
+      break person.age
+    }
+  }
+}
+
+fun main(): void {
+  print_string(maybeAdd1(true, 1));
+  print_string(maybeAdd1(false, 1));
+
+  // static mathods with ::
+  print_string(findMax(Array::fillBy(5, i -> i)));
+
+  people = Array::fillBy(5, i -> Person { name => `name - ${i}`, age => i + 20 });
+  print_string(getAge("name - 3", people));
+  print_string(getAgeWhile("name - 3", people));
+  print_string(getAgeLoop("name - 3", people));
+  print_string(people.map(x -> Person { name => x.name + " -- updated", age => x.age }));
+}

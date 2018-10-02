@@ -1,0 +1,35 @@
+fun identity<T>(x: T): T { x }
+
+class MyReference<T>(value: T) {
+  // a constraint can also be conditionally added to a method
+  fun show[T: Show](): String {
+    this.value.toString()
+  }
+}
+
+class N()
+
+fun tesingGenerics(): void {
+  _ = identity(0);
+  _ = identity<Int>(0);
+  _ = MyReference(0);
+  _ = MyReference<Int>(0);
+}
+
+// can't use curry, sadly
+fun foldl<A, B>(arr: Array<A>, zero: B, f: (B, A) -> B): B {
+  if (arr.size() == 0) {
+    zero
+  } else foldl(arr.slice(1), f(zero, arr[0]), f)
+}
+
+fun main(): void {
+  tesingGenerics();
+
+  print_string(MyReference(1).show());
+
+  // The type N is not a subtype of: Show
+  // print_string(MyReference(N()).show());
+
+  print_string(foldl(Array::fillBy(5, i -> i + 1), 0, (a, b) -> a + b))
+}

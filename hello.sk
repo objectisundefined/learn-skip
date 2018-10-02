@@ -1,0 +1,4 @@
+
+fun main(): void {
+  print_string("hello world")
+}

@@ -1,0 +1,70 @@
+class Point (x: Int, y: Int) uses Show {
+  // there is no notion of a constructor in the classic sense
+
+  // the reason for this is that we want pattern-matching to work
+  // as the dual operation of object creation for any object
+
+  // the default, for any object construction is to be immutable
+
+  fun moveX(v: Int): Point {
+    Point(this.x + v, this.y)
+  }
+
+  fun moveY(v: Int): Point {
+    Point(this.x, this.y + v)
+  }
+
+  fun move(a: Int, b: Int): Point {
+    this.moveX(a).moveY(b)
+  }
+
+  fun toString(): String {
+    `Point(${this.x}, ${this.y})`
+  }
+}
+
+// named parameters
+class P { x: Int, y: Int } uses Show {
+  fun moveX(v: Int): P {
+    P { x => this.x + v, y => this.y }
+  }
+
+  fun moveY(v: Int): P {
+    P { x => this.x, y => this.y + v }
+  }
+
+  fun move(a: Int, b: Int): P {
+    this.moveX(a).moveY(b)
+  }
+
+  fun toString(): String {
+    `P { x: ${this.x}, y: ${this.y} }`
+  }
+}
+
+// children
+base class Parent<T> {
+  children = A() | B(Int) | C(Int, Bool)
+}
+
+// this is strictly equivalent to
+/*
+base class Parent<T>
+class A<T>() extends Parent<T>
+class B<T>(Int) extends Parent<T>
+class C<T>(Int, Bool) extends Parent<T>
+*/
+
+// value class
+value class Pair(x: Int, y: Int)
+
+fun main(): void {
+  p = Point(1, 2);
+  print_string(p);
+
+  print_string(p.move(1, 2));
+
+  p1 = P { x => 1, y => 2 };
+  print_string(p1);
+  print_string(p1.move(1, 2))
+}

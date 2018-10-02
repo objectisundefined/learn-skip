@@ -1,0 +1,71 @@
+// Show has been previously defined here
+/*
+trait Showable {
+  fun toString(): String;
+}
+
+fun show<T: Show>(t: T): String { t.toString() }
+
+class N(value: Int) uses Showable uses Show {
+  fun toString(): String { `N(${this.value})` }
+}
+
+fun main(): void {
+  n = N(1);
+
+  print_string(n.toString());
+  print_string(show(1));
+
+  void
+}
+*/
+
+/*
+base class MyComparable {
+  fun isEqual(this): Bool;
+}
+*/
+
+trait MyComparable {
+  // source from trait Equality, modified
+  overridable macro readonly fun isEqual(other: inst): Bool {
+    other match {
+    | otherTyped @ #ThisClass _ ->
+      _ = otherTyped; // silence unused variable warning in classes with no fields.
+      #forEachField (#field) {
+        // Use isEqual to ensure that fields implement Equality
+        if (this.#field != otherTyped.#field) {
+          return false;
+        }
+      };
+      true
+
+    | _ -> false
+    }
+  }
+}
+
+class A(value: Int) extends Num {}
+class B(value: Int) extends Num {}
+
+/*
+class A(value: Int) uses MyComparable {}
+class B(value: Int) uses MyComparable {}
+
+tough(A(1), B(2))
+// error: Does not share a common super type
+*/
+
+fun tough<T: MyComparable>(x: T, y: T): Bool {
+  x.isEqual(y)
+}
+
+base class Num uses MyComparable
+class NumInt(value: Int) extends Num
+class NumFloat(value: Float) extends Num
+
+fun main(): void {
+  print_string(tough(A(1), A(1)));
+  print_string(tough(A(1), B(2)));
+  print_string(NumInt(1).isEqual(NumFloat(2.0)))
+}
